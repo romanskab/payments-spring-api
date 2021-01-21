@@ -1,0 +1,17 @@
+spring:
+  jackson:
+    default-property-inclusion: non_null
+  datasource:
+    url: jdbc:mysql://localhost/payments_spring?createDatabaseIfNotExist=true&useUnicode=yes&characterEncoding=UTF-8&serverTimezone=Europe/Kiev
+    username: root
+    password: root
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: update
+
+app:
+  auth:
+    admin:
+      password: admin
+      email: admin@mail.com

@@ -1,0 +1,5 @@
+app:
+  auth:
+    admin:
+      password: testpassword
+      email: admin@testmail.com
