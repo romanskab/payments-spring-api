@@ -23,7 +23,12 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserDto updateUser(UserDto userDto) {
         User user = mappingService.mapUserDtoToUser(userDto);
-        log.info("About to update user {}", user);
+        final User principal = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        log.info("About to update user {}", principal);
+        user.setId(principal.getId());
+        user.setRole(principal.getRole());
+        user.setState(principal.getState());
+        user.setPassword(principal.getPassword());
         user = userRepository.save(user);
         log.info("Used with id {} successfully updated", user.getId());
         return mappingService.mapUserToUserDto(user);

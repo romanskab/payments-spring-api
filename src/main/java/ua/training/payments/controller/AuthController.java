@@ -9,6 +9,7 @@ import ua.training.payments.controller.assembler.UserModelAssembler;
 import ua.training.payments.controller.model.UserModel;
 import ua.training.payments.dto.UserDto;
 import ua.training.payments.model.enums.Role;
+import ua.training.payments.model.enums.State;
 import ua.training.payments.service.AuthService;
 
 @Slf4j
@@ -29,7 +30,7 @@ public class AuthController implements AuthApi {
     @Override
     public UserModel signUp(UserDto inUserDto) {
         log.info("Registering user with email {}", inUserDto.getEmail());
-        UserDto outUserDto = authService.signUp(inUserDto, Role.ROLE_USER);
+        UserDto outUserDto = authService.signUp(inUserDto, Role.ROLE_CLIENT, State.UNBLOCKED);
         return modelAssembler.toModel(outUserDto);
     }
 

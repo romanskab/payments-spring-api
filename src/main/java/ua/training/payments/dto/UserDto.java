@@ -8,6 +8,8 @@ import ua.training.payments.dto.validation.UniqueEmail;
 import ua.training.payments.dto.validation.group.OnRegister;
 import ua.training.payments.dto.validation.group.OnSignIn;
 import ua.training.payments.dto.validation.group.OnUpdate;
+import ua.training.payments.model.enums.Role;
+import ua.training.payments.model.enums.State;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
@@ -46,5 +48,11 @@ public class UserDto {
     @Email(message = "{email.wrong.format}")
     @UniqueEmail(groups = {OnRegister.class, OnUpdate.class})
     private String email;
+
+    @JsonProperty(access = READ_ONLY)
+    private State state;
+
+    @JsonProperty(access = READ_ONLY)
+    private Role role;
 
 }

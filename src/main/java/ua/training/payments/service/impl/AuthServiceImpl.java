@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import ua.training.payments.dto.UserDto;
 import ua.training.payments.model.User;
 import ua.training.payments.model.enums.Role;
+import ua.training.payments.model.enums.State;
 import ua.training.payments.repository.UserRepository;
 import ua.training.payments.service.AuthService;
 import ua.training.payments.service.MappingService;
@@ -47,11 +48,12 @@ public class AuthServiceImpl implements AuthService {
     }
 
     @Override
-    public UserDto signUp(UserDto userDto, Role role) {
+    public UserDto signUp(UserDto userDto, Role role, State state) {
         User user = mappingService.mapUserDtoToUser(userDto);
         log.info("createUser: about to register a new user with email {}", user.getEmail());
 
         user.setRole(role);
+        user.setState(state);
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         user = userRepository.save(user);
         log.info("Used with id {} successfully registered", user.getId());
