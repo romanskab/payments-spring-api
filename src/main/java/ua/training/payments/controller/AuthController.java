@@ -10,6 +10,7 @@ import ua.training.payments.controller.model.UserModel;
 import ua.training.payments.dto.UserDto;
 import ua.training.payments.model.enums.Role;
 import ua.training.payments.model.enums.State;
+import ua.training.payments.model.payload.JwtResponse;
 import ua.training.payments.service.AuthService;
 
 @Slf4j
@@ -21,10 +22,9 @@ public class AuthController implements AuthApi {
     private final UserModelAssembler modelAssembler;
 
     @Override
-    public UserModel signIn(UserDto inUserDto) {
+    public JwtResponse signIn(UserDto inUserDto) {
         log.info("Singing in user with email {}", inUserDto.getEmail());
-        UserDto outUserDto = authService.signIn(inUserDto);
-        return modelAssembler.toModel(outUserDto);
+        return authService.signIn(inUserDto);
     }
 
     @Override
@@ -36,6 +36,7 @@ public class AuthController implements AuthApi {
 
     @Override
     public ResponseEntity<Void> signOut() {
+        System.out.println("AuthController.signOut() started!");
         authService.signOut();
         return ResponseEntity.noContent().build();
     }

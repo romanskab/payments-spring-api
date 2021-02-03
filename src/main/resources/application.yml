@@ -10,8 +10,16 @@ spring:
     hibernate:
       ddl-auto: update
 
+server:
+  port: 8081
+
 app:
   auth:
     admin:
       password: admin
       email: admin@mail.com
+  security:
+    jwtSecret: SldUU3VwZXJTZWNyZXRLZXkxMjM0NXF3ZXJ0eXVpb3Bhc2RmZ2hqa2w=
+    jwtExpirationInMs: 604800000 # One week
+    cors:
+      maxCacheTime: 3600 # One hour

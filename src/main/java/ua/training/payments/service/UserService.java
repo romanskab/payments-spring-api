@@ -11,4 +11,6 @@ public interface UserService {
 
     boolean isUserExistsWithEmail(String email);
 
+    User findById(Long id);
+
 }

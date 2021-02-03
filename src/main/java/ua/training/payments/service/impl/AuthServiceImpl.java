@@ -14,7 +14,9 @@ import ua.training.payments.dto.UserDto;
 import ua.training.payments.model.User;
 import ua.training.payments.model.enums.Role;
 import ua.training.payments.model.enums.State;
+import ua.training.payments.model.payload.JwtResponse;
 import ua.training.payments.repository.UserRepository;
+import ua.training.payments.security.JwtTokenProvider;
 import ua.training.payments.service.AuthService;
 import ua.training.payments.service.MappingService;
 
@@ -27,6 +29,7 @@ public class AuthServiceImpl implements AuthService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     private final AuthenticationManager authenticationManager;
+    private final JwtTokenProvider tokenProvider;
 
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
@@ -35,7 +38,7 @@ public class AuthServiceImpl implements AuthService {
     }
 
     @Override
-    public UserDto signIn(UserDto userDto) {
+    public JwtResponse signIn(UserDto userDto) {
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
                         userDto.getEmail(),
@@ -43,8 +46,8 @@ public class AuthServiceImpl implements AuthService {
         );
         SecurityContextHolder.getContext().setAuthentication(authentication);
 
-        User user = (User) authentication.getPrincipal();
-        return mappingService.mapUserToUserDto(user);
+        final String token = tokenProvider.generateToken(authentication);
+        return new JwtResponse(token);
     }
 
     @Override
@@ -58,7 +61,7 @@ public class AuthServiceImpl implements AuthService {
         user = userRepository.save(user);
         log.info("Used with id {} successfully registered", user.getId());
 
-        return signIn(userDto);
+        return mappingService.mapUserToUserDto(user);
     }
 
     @Override

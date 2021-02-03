@@ -2,15 +2,22 @@ package ua.training.payments.controller;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.hateoas.CollectionModel;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 import ua.training.payments.api.UserApi;
+import ua.training.payments.controller.assembler.AccountModelAssembler;
 import ua.training.payments.controller.assembler.UserModelAssembler;
+import ua.training.payments.controller.model.AccountModel;
 import ua.training.payments.controller.model.UserModel;
+import ua.training.payments.dto.AccountDto;
 import ua.training.payments.dto.UserDto;
 import ua.training.payments.model.User;
+import ua.training.payments.service.AccountService;
 import ua.training.payments.service.MappingService;
 import ua.training.payments.service.UserService;
+
+import java.util.List;
 
 @Slf4j
 @RestController
@@ -18,7 +25,9 @@ import ua.training.payments.service.UserService;
 public class UserController implements UserApi {
 
     private final UserService userService;
+    private final AccountService accountService;
     private final UserModelAssembler modelAssembler;
+    private final AccountModelAssembler accountModelAssembler;
     private final MappingService mappingService;
 
 
@@ -42,4 +51,7 @@ public class UserController implements UserApi {
         userService.deleteUser(user);
         return ResponseEntity.noContent().build();
     }
+
+
+
 }

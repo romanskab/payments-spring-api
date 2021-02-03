@@ -12,6 +12,7 @@ import ua.training.payments.controller.model.UserModel;
 import ua.training.payments.dto.UserDto;
 import ua.training.payments.dto.validation.group.OnRegister;
 import ua.training.payments.dto.validation.group.OnSignIn;
+import ua.training.payments.model.payload.JwtResponse;
 
 @Api(tags = "Auth management REST API")
 @ApiResponses({
@@ -25,7 +26,7 @@ public interface AuthApi {
     @ApiResponse(code = 200, message = "OK", response = UserModel.class)
     @PostMapping("/signin")
     @ResponseStatus(HttpStatus.OK)
-    UserModel signIn(@RequestBody @Validated(OnSignIn.class) UserDto userDto);
+    JwtResponse signIn(@RequestBody @Validated(OnSignIn.class) UserDto userDto);
 
     @ApiOperation("Sign up and automatically sign in user to the system")
     @ApiResponse(code = 201, message = "Created", response = UserModel.class)
